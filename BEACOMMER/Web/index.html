@@ -1,0 +1,351 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BEACOMMER Beauty Shop</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+:root{--purple:#7950c8;--purple-dark:#59339e;--purple-light:#f2edfc;--text:#30283c;--muted:#81798c;--white:#fff;--border:#e9e4ef;--background:#f8f6fb;--danger:#dc3545;--success:#198754}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:var(--background);color:var(--text)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+.auth-container{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#7950c8,#c58bdc)}
+.auth-card{background:#fff;width:100%;max-width:430px;padding:35px;border-radius:20px;box-shadow:0 15px 40px #39205c35}
+.logo{text-align:center;color:var(--purple);margin-bottom:25px}.logo i{font-size:45px}.logo h2{margin-top:8px}.logo p{color:var(--muted);font-size:13px;margin-top:5px}
+.form-group{margin-bottom:16px}.form-group label{display:block;margin-bottom:7px;font-size:13px;font-weight:bold}
+.form-control{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:9px;outline:none;background:#fff}
+.form-control:focus{border-color:var(--purple);box-shadow:0 0 0 3px #7950c820}textarea.form-control{resize:vertical;min-height:85px}
+.btn{border:none;padding:11px 16px;border-radius:8px;font-weight:bold;transition:.2s}.btn-primary{background:var(--purple);color:#fff}.btn-primary:hover{background:var(--purple-dark)}.btn-danger{background:var(--danger);color:#fff}.btn-success{background:var(--success);color:#fff}.btn-light{background:var(--purple-light);color:var(--purple-dark)}.btn-block{width:100%}
+.auth-switch{text-align:center;margin-top:18px;font-size:13px;color:var(--muted)}.auth-switch a{color:var(--purple);font-weight:bold;cursor:pointer;text-decoration:none}
+.message{padding:11px;border-radius:8px;margin-bottom:15px;font-size:13px;display:none}.message.error{display:block;background:#fde8eb;color:#a51f31}.message.success{display:block;background:#e3f5e9;color:#176c37}
+#app{min-height:100vh}.sidebar{position:fixed;left:0;top:0;bottom:0;width:245px;background:#fff;border-right:1px solid var(--border);padding:22px 15px;overflow-y:auto;z-index:100}
+.sidebar-logo{text-align:center;color:var(--purple);padding:10px 0 30px}.sidebar-logo i{font-size:35px}.sidebar-logo h3{font-size:19px;margin-top:7px}
+.nav-label{color:#aaa1b5;font-size:11px;font-weight:bold;margin:15px 10px 8px;text-transform:uppercase}
+.nav-link{display:flex;align-items:center;gap:12px;padding:12px;border-radius:9px;margin-bottom:5px;color:#625a6c;cursor:pointer;font-size:14px;transition:.2s}.nav-link i{font-size:18px}.nav-link:hover,.nav-link.active{background:var(--purple-light);color:var(--purple)}
+.main-content{margin-left:245px;min-height:100vh}.topbar{height:70px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 30px}.topbar h3{font-size:18px}
+.user-info{display:flex;align-items:center;gap:12px;font-size:13px}.user-avatar{width:38px;height:38px;background:var(--purple-light);color:var(--purple);border-radius:50%;display:grid;place-items:center;font-size:18px}
+.content{padding:30px}.page-title{margin-bottom:22px}.page-title h2{font-size:23px;margin-bottom:6px}.page-title p{color:var(--muted);font-size:13px}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:25px}.stat-card{background:#fff;border:1px solid var(--border);border-radius:13px;padding:22px}.stat-icon{width:43px;height:43px;display:grid;place-items:center;border-radius:11px;background:var(--purple-light);color:var(--purple);font-size:21px;margin-bottom:15px}.stat-card h3{font-size:24px;margin-bottom:5px}.stat-card p{color:var(--muted);font-size:13px}
+.panel{background:#fff;border:1px solid var(--border);border-radius:13px;padding:22px;margin-bottom:22px}.panel-header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}.panel-header h3{font-size:17px}
+.table-wrapper{width:100%;overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:650px}th,td{padding:13px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px}th{color:var(--muted);font-size:12px;background:#faf9fc}td .btn{padding:7px 10px;font-size:11px;margin:2px}.empty-state{padding:25px;text-align:center;color:var(--muted)}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:20px}.product-card{background:#fff;border:1px solid var(--border);border-radius:13px;overflow:hidden;transition:.2s}.product-card:hover{transform:translateY(-3px);box-shadow:0 8px 22px #30283c12}
+.product-image{height:175px;background:var(--purple-light);display:grid;place-items:center;color:var(--purple);font-size:45px;overflow:hidden}.product-image img{width:100%;height:100%;object-fit:cover}
+.table-product-image{width:58px;height:58px;object-fit:cover;border-radius:8px;border:1px solid var(--border);background:var(--purple-light)}.product-details{padding:15px}.product-details h4{font-size:15px;margin-bottom:7px}.product-details p{color:var(--muted);font-size:12px;margin-bottom:7px}.product-price{color:var(--purple);font-size:17px;font-weight:bold;margin:10px 0}.product-details .btn{width:100%}
+.image-upload-area{display:block;border:2px dashed #cbbbe8;border-radius:12px;padding:20px;text-align:center;background:#faf8ff;cursor:pointer;transition:.2s}.image-upload-area:hover{border-color:var(--purple);background:var(--purple-light)}.image-upload-area i{font-size:35px;color:var(--purple)}.image-upload-area p{font-size:13px;color:var(--muted);margin-top:8px}
+.image-preview-container{margin-top:15px;display:none}.image-preview{width:150px;height:150px;object-fit:cover;border-radius:10px;border:1px solid var(--border);display:block;margin-bottom:10px}
+.modal-overlay{position:fixed;inset:0;background:#17102080;display:none;justify-content:center;align-items:center;padding:15px;z-index:500}.modal-overlay.show{display:flex}.modal-box{background:#fff;width:100%;max-width:550px;max-height:90vh;overflow-y:auto;padding:25px;border-radius:15px}.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.close-modal{border:none;background:transparent;font-size:23px;color:var(--muted)}
+.cart-item{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--border);padding:14px 0}.cart-item-info h4{font-size:14px;margin-bottom:5px}.cart-item-info p{font-size:12px;color:var(--muted)}.cart-total{display:flex;justify-content:space-between;font-weight:bold;padding:18px 0;font-size:17px}
+@media(max-width:1000px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.sidebar{width:65px;padding:15px 7px}.sidebar-logo h3,.sidebar-logo p,.nav-link span,.nav-label{display:none}.sidebar-logo i{font-size:25px}.nav-link{justify-content:center;padding:13px 5px}.main-content{margin-left:65px}.content{padding:18px}.topbar{padding:0 15px}.stats-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<section id="loginPage" class="auth-container">
+ <div class="auth-card">
+  <div class="logo"><i class="bi bi-flower1"></i><h2>BEACOMMER</h2><p>Beauty and skincare shop</p></div>
+  <div id="loginMessage" class="message"></div>
+  <form id="loginForm">
+   <div class="form-group"><label>Username</label><input class="form-control" type="text" id="loginUsername" required></div>
+   <div class="form-group"><label>Password</label><input class="form-control" type="password" id="loginPassword" required></div>
+   <button class="btn btn-primary btn-block" type="submit"><i class="bi bi-box-arrow-in-right"></i> Login</button>
+  </form>
+  <div class="auth-switch">Don't have an account? <a onclick="showRegister()">Register here</a></div>
+ </div>
+</section>
+
+<section id="registerPage" class="auth-container hidden">
+ <div class="auth-card">
+  <div class="logo"><i class="bi bi-flower1"></i><h2>Create Account</h2><p>Join BEACOMMER Beauty Shop</p></div>
+  <div id="registerMessage" class="message"></div>
+  <form id="registerForm">
+   <div class="form-group"><label>Full Name</label><input class="form-control" type="text" id="registerFullname" required></div>
+   <div class="form-group"><label>Username</label><input class="form-control" type="text" id="registerUsername" required></div>
+   <div class="form-group"><label>Password (at least 8 characters)</label><input class="form-control" type="password" id="registerPassword" minlength="8" required></div>
+   <button class="btn btn-primary btn-block" type="submit"><i class="bi bi-person-plus"></i> Create Account</button>
+  </form>
+  <div class="auth-switch">Already have an account? <a onclick="showLogin()">Login here</a></div>
+ </div>
+</section>
+
+<div id="app" class="hidden">
+ <aside class="sidebar">
+  <div class="sidebar-logo"><i class="bi bi-flower1"></i><h3>BEACOMMER</h3><p>Beauty Shop</p></div>
+  <div class="nav-label">Main Menu</div>
+  <div class="nav-link active" onclick="navigate('dashboard',this)"><i class="bi bi-grid"></i><span>Dashboard</span></div>
+  <div id="adminNavigation">
+   <div class="nav-label">Management</div>
+   <div class="nav-link" onclick="navigate('products',this)"><i class="bi bi-box-seam"></i><span>Products</span></div>
+   <div class="nav-link" onclick="navigate('categories',this)"><i class="bi bi-tags"></i><span>Categories</span></div>
+   <div class="nav-link" onclick="navigate('customers',this)"><i class="bi bi-people"></i><span>Customers</span></div>
+   <div class="nav-link" onclick="navigate('orders',this)"><i class="bi bi-bag-check"></i><span>Orders</span></div>
+   <div class="nav-link" onclick="navigate('payments',this)"><i class="bi bi-credit-card"></i><span>Payments</span></div>
+   <div class="nav-link" onclick="navigate('reports',this)"><i class="bi bi-bar-chart"></i><span>Reports</span></div>
+  </div>
+  <div id="customerNavigation" class="hidden">
+   <div class="nav-label">Shopping</div>
+   <div class="nav-link" onclick="navigate('shop',this)"><i class="bi bi-shop"></i><span>Shop Products</span></div>
+   <div class="nav-link" onclick="navigate('cart',this)"><i class="bi bi-cart"></i><span>My Cart</span></div>
+   <div class="nav-link" onclick="navigate('myorders',this)"><i class="bi bi-receipt"></i><span>My Orders</span></div>
+  </div>
+  <div class="nav-label">Account</div>
+  <div class="nav-link" onclick="navigate('settings',this)"><i class="bi bi-gear"></i><span>Settings</span></div>
+  <div class="nav-link" onclick="logout()"><i class="bi bi-box-arrow-left"></i><span>Logout</span></div>
+ </aside>
+
+ <main class="main-content">
+  <header class="topbar"><h3 id="topbarTitle">Dashboard</h3><div class="user-info"><div class="user-avatar"><i class="bi bi-person"></i></div><div><strong id="currentUser">User</strong><p id="currentRole" style="color:#81798c;font-size:11px">Customer</p></div></div></header>
+  <div class="content">
+   <section id="page-dashboard" class="page">
+    <div class="page-title"><h2>Dashboard</h2><p>Welcome to BEACOMMER Beauty Shop.</p></div>
+    <div class="stats-grid">
+     <div class="stat-card"><div class="stat-icon"><i class="bi bi-box-seam"></i></div><h3 id="totalProducts">0</h3><p>Total Products</p></div>
+     <div class="stat-card"><div class="stat-icon"><i class="bi bi-people"></i></div><h3 id="totalCustomers">0</h3><p>Total Customers</p></div>
+     <div class="stat-card"><div class="stat-icon"><i class="bi bi-bag-check"></i></div><h3 id="totalOrders">0</h3><p>Total Orders</p></div>
+     <div class="stat-card"><div class="stat-icon"><i class="bi bi-currency-dollar"></i></div><h3 id="totalRevenue">₱0.00</h3><p>Total Revenue</p></div>
+    </div>
+    <div class="panel"><h3>Welcome!</h3><p style="color:#81798c;margin-top:10px;font-size:13px">Manage your beauty products, categories, customers, and orders using BEACOMMER.</p></div>
+   </section>
+
+   <section id="page-products" class="page hidden">
+    <div class="page-title"><h2>Product Management</h2><p>Manage your beauty and skincare products.</p></div>
+    <div class="panel"><div class="panel-header"><h3>Product List</h3><button class="btn btn-primary" onclick="openProductModal()"><i class="bi bi-plus-lg"></i> Add Product</button></div>
+     <div class="table-wrapper"><table><thead><tr><th>ID</th><th>Image</th><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead><tbody id="productList"><tr><td colspan="7" class="empty-state">Loading products...</td></tr></tbody></table></div>
+    </div>
+   </section>
+
+   <section id="page-categories" class="page hidden">
+    <div class="page-title"><h2>Category Management</h2><p>Manage product categories.</p></div>
+    <div class="panel"><div class="panel-header"><h3>Categories</h3><button class="btn btn-primary" onclick="openCategoryModal()"><i class="bi bi-plus-lg"></i> Add Category</button></div>
+     <div class="table-wrapper"><table><thead><tr><th>ID</th><th>Category Name</th><th>Actions</th></tr></thead><tbody id="categoryList"><tr><td colspan="3" class="empty-state">No categories loaded.</td></tr></tbody></table></div>
+    </div>
+   </section>
+
+   <section id="page-customers" class="page hidden"><div class="page-title"><h2>Customer Management</h2><p>View registered customers.</p></div><div class="panel"><div class="table-wrapper"><table><thead><tr><th>ID</th><th>Full Name</th><th>Email</th><th>Phone</th></tr></thead><tbody id="customerList"></tbody></table></div></div></section>
+   <section id="page-orders" class="page hidden"><div class="page-title"><h2>Order Management</h2><p>View customer orders.</p></div><div class="panel"><div class="table-wrapper"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Order Date</th><th>Total</th><th>Status</th></tr></thead><tbody id="orderList"></tbody></table></div></div></section>
+   <section id="page-payments" class="page hidden"><div class="page-title"><h2>Payment Management</h2><p>View payment records.</p></div><div class="panel"><div class="table-wrapper"><table><thead><tr><th>Payment ID</th><th>Order ID</th><th>Method</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody id="paymentList"></tbody></table></div></div></section>
+   <section id="page-reports" class="page hidden"><div class="page-title"><h2>Reports</h2><p>Beauty shop sales summary.</p></div><div class="stats-grid"><div class="stat-card"><div class="stat-icon"><i class="bi bi-cash-stack"></i></div><h3 id="reportRevenue">₱0.00</h3><p>Total Revenue</p></div><div class="stat-card"><div class="stat-icon"><i class="bi bi-check-circle"></i></div><h3 id="completedOrders">0</h3><p>Completed Orders</p></div></div></section>
+   <section id="page-shop" class="page hidden"><div class="page-title"><h2>Beauty Shop</h2><p>Explore our available beauty products.</p></div><div class="panel"><input class="form-control" id="shopSearch" placeholder="Search products..." oninput="filterShopProducts()"></div><div class="product-grid" id="shopProductList"></div></section>
+   <section id="page-cart" class="page hidden"><div class="page-title"><h2>My Shopping Cart</h2><p>Review your selected products.</p></div><div class="panel"><div id="cartItems"><p class="empty-state">Your cart is empty.</p></div><div class="cart-total"><span>Total:</span><span id="cartTotal">₱0.00</span></div><button class="btn btn-primary btn-block" onclick="checkout()"><i class="bi bi-bag-check"></i> Place Order</button></div></section>
+   <section id="page-myorders" class="page hidden"><div class="page-title"><h2>My Orders</h2><p>Check your order history.</p></div><div class="panel"><div class="table-wrapper"><table><thead><tr><th>Order ID</th><th>Date</th><th>Total Amount</th><th>Status</th></tr></thead><tbody id="myOrderList"></tbody></table></div></div></section>
+   <section id="page-settings" class="page hidden"><div class="page-title"><h2>Account Settings</h2><p>Your account information.</p></div><div class="panel"><p><strong>Username:</strong> <span id="settingsUsername"></span></p><p style="margin-top:12px"><strong>Full Name:</strong> <span id="settingsFullname"></span></p><p style="margin-top:12px"><strong>Account Role:</strong> <span id="settingsRole"></span></p></div></section>
+  </div>
+ </main>
+</div>
+
+<div class="modal-overlay" id="productModal"><div class="modal-box">
+ <div class="modal-header"><h3>Add New Product</h3><button class="close-modal" onclick="closeModal('productModal')">&times;</button></div>
+ <div id="productMessage" class="message"></div>
+ <form id="addProductForm">
+  <div class="form-group"><label>Product Name</label><input class="form-control" name="product_name" required></div>
+  <div class="form-group"><label>Category</label><select class="form-control" name="category_id" id="productCategory" required><option value="">Loading categories...</option></select></div>
+  <div class="form-group"><label>Description</label><textarea class="form-control" name="description" placeholder="Enter product description"></textarea></div>
+  <div class="form-group"><label>Price (₱)</label><input class="form-control" type="number" name="price" min="0" step="0.01" required></div>
+  <div class="form-group"><label>Stock</label><input class="form-control" type="number" name="stock" min="0" step="1" required></div>
+  <div class="form-group"><label>Product Image</label><label for="productImage" class="image-upload-area"><i class="bi bi-cloud-arrow-up"></i><p><strong>Click to upload product image</strong></p><p>JPG, JPEG, PNG or WEBP (Maximum 5 MB)</p></label><input type="file" id="productImage" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" hidden><div id="imagePreviewContainer" class="image-preview-container"><img id="imagePreview" class="image-preview" src="" alt="Product preview"><button type="button" class="btn btn-danger" onclick="removeProductImage()">Remove Image</button><p id="selectedImageName" style="font-size:12px;color:#81798c;margin-top:8px"></p></div></div>
+  <button class="btn btn-primary btn-block" type="submit" id="saveProductButton"><i class="bi bi-plus-circle"></i> Save Product</button>
+ </form>
+</div></div>
+
+<div class="modal-overlay" id="categoryModal"><div class="modal-box">
+ <div class="modal-header"><h3>Add New Category</h3><button class="close-modal" onclick="closeModal('categoryModal')">&times;</button></div>
+ <div id="categoryMessage" class="message"></div>
+ <form id="addCategoryForm"><div class="form-group"><label>Category Name</label><input class="form-control" name="category_name" placeholder="Example: Skincare" required></div><button class="btn btn-primary btn-block" type="submit"><i class="bi bi-plus-circle"></i> Save Category</button></form>
+</div></div>
+
+<script>
+let currentUser=null,currentFullname=null,currentRole=null;
+let products=[],categories=[],cart=[];
+let selectedImageBase64="",selectedImageName="";
+const MAX_IMAGE_SIZE=5*1024*1024;
+const ALLOWED_IMAGE_TYPES=["image/jpeg","image/png","image/webp"];
+
+function peso(value){return "₱"+Number(value||0).toLocaleString("en-PH",{minimumFractionDigits:2,maximumFractionDigits:2});}
+function sendToCSharp(data){
+ if(window.chrome&&window.chrome.webview&&window.chrome.webview.postMessage){window.chrome.webview.postMessage(data);}
+ else{console.error("WebView2 is not available.",data);alert("WebView2 connection is unavailable. Run this page inside the BEACOMMER desktop application.");}
+}
+function requestData(action){sendToCSharp({action});}
+function showMessage(id,message,type){const el=document.getElementById(id);if(el){el.textContent=message;el.className="message "+type;}}
+function showLogin(){document.getElementById("loginPage").classList.remove("hidden");document.getElementById("registerPage").classList.add("hidden");document.getElementById("app").classList.add("hidden");}
+function showRegister(){document.getElementById("loginPage").classList.add("hidden");document.getElementById("registerPage").classList.remove("hidden");document.getElementById("app").classList.add("hidden");}
+function showApp(user,role,fullname){
+ currentUser=user;currentFullname=fullname||user;currentRole=String(role||"customer").toLowerCase();
+ document.getElementById("loginPage").classList.add("hidden");document.getElementById("registerPage").classList.add("hidden");document.getElementById("app").classList.remove("hidden");
+ document.getElementById("currentUser").textContent=currentFullname;document.getElementById("currentRole").textContent=currentRole;
+ document.getElementById("adminNavigation").classList.toggle("hidden",currentRole!=="admin");
+ document.getElementById("customerNavigation").classList.toggle("hidden",currentRole!=="customer");
+ document.getElementById("settingsUsername").textContent=user;document.getElementById("settingsFullname").textContent=currentFullname;document.getElementById("settingsRole").textContent=currentRole;
+ navigate("dashboard");
+}
+document.getElementById("loginForm").addEventListener("submit",e=>{e.preventDefault();sendToCSharp({action:"login",username:document.getElementById("loginUsername").value.trim(),password:document.getElementById("loginPassword").value});});
+document.getElementById("registerForm").addEventListener("submit",e=>{e.preventDefault();sendToCSharp({action:"register",username:document.getElementById("registerUsername").value.trim(),fullname:document.getElementById("registerFullname").value.trim(),password:document.getElementById("registerPassword").value});});
+function logout(){sendToCSharp({action:"logout"});}
+
+function navigate(page,clickedElement=null){
+ const adminPages=["products","categories","customers","orders","payments","reports"];
+ const customerPages=["shop","cart","myorders"];
+ if(currentRole==="customer"&&adminPages.includes(page)){alert("You do not have permission to access this page.");return;}
+ if(currentRole==="admin"&&customerPages.includes(page)){alert("This page is for customer accounts.");return;}
+ document.querySelectorAll(".page").forEach(s=>s.classList.add("hidden"));
+ const target=document.getElementById("page-"+page);if(!target)return;target.classList.remove("hidden");
+ document.querySelectorAll(".nav-link").forEach(n=>n.classList.remove("active"));
+ if(clickedElement)clickedElement.classList.add("active");else document.querySelectorAll(".nav-link").forEach(n=>{if(n.getAttribute("onclick")?.includes("'"+page+"'"))n.classList.add("active");});
+ const titles={dashboard:"Dashboard",products:"Products",categories:"Categories",customers:"Customers",orders:"Orders",payments:"Payments",reports:"Reports",shop:"Beauty Shop",cart:"My Cart",myorders:"My Orders",settings:"Settings"};
+ document.getElementById("topbarTitle").textContent=titles[page]||"BEACOMMER";
+ if(page==="dashboard")requestData(currentRole==="admin"?"getDashboard":"getCustomerDashboard");
+ if(page==="products"){requestData("getProducts");loadCategories();}
+ if(page==="categories")loadCategories();
+ if(page==="customers")requestData("getCustomers");
+ if(page==="orders")requestData("getOrders");
+ if(page==="payments")requestData("getPayments");
+ if(page==="reports")requestData("getReports");
+ if(page==="shop")requestData("getProducts");
+ if(page==="myorders")requestData("getMyOrders");
+ if(page==="cart")renderCart();
+}
+function loadCategories(){requestData("getCategories");}
+function populateCategoryDropdown(list){
+ categories=Array.isArray(list)?list:[];
+ const select=document.getElementById("productCategory");if(!select)return;
+ select.innerHTML="";
+ const first=document.createElement("option");first.value="";first.textContent=categories.length?"Select Category":"No categories available - add a category first";select.appendChild(first);
+ categories.forEach(c=>{const option=document.createElement("option");option.value=c.id;option.textContent=c.category_name||c.name||"Unnamed category";select.appendChild(option);});
+}
+function openProductModal(){
+ document.getElementById("addProductForm").reset();showMessage("productMessage","","");removeProductImage();
+ document.getElementById("productModal").classList.add("show");
+ populateCategoryDropdown(categories);
+ loadCategories();
+}
+function openCategoryModal(){document.getElementById("addCategoryForm").reset();showMessage("categoryMessage","","");document.getElementById("categoryModal").classList.add("show");}
+function closeModal(id){document.getElementById(id).classList.remove("show");}
+
+const productImageInput=document.getElementById("productImage");
+productImageInput.addEventListener("change",function(){
+ const file=this.files[0];if(!file)return;
+ if(!ALLOWED_IMAGE_TYPES.includes(file.type)){alert("Choose a JPG, PNG, or WEBP image.");removeProductImage();return;}
+ if(file.size>MAX_IMAGE_SIZE){alert("Image size must not exceed 5 MB.");removeProductImage();return;}
+ const reader=new FileReader();
+ reader.onload=e=>{selectedImageBase64=e.target.result;selectedImageName=file.name;document.getElementById("imagePreview").src=selectedImageBase64;document.getElementById("selectedImageName").textContent=selectedImageName;document.getElementById("imagePreviewContainer").style.display="block";};
+ reader.onerror=()=>{alert("Unable to read the selected image.");removeProductImage();};reader.readAsDataURL(file);
+});
+function removeProductImage(){productImageInput.value="";selectedImageBase64="";selectedImageName="";document.getElementById("imagePreview").src="";document.getElementById("selectedImageName").textContent="";document.getElementById("imagePreviewContainer").style.display="none";}
+
+document.getElementById("addProductForm").addEventListener("submit",e=>{
+ e.preventDefault();const f=new FormData(e.currentTarget);const categoryId=Number(f.get("category_id"));
+ if(!categoryId){showMessage("productMessage","Please select a category.","error");return;}
+ const item={action:"addProduct",product_name:String(f.get("product_name")||"").trim(),category_id:categoryId,description:String(f.get("description")||""),price:Number(f.get("price")),stock:Number(f.get("stock")),imageName:selectedImageName,imageBase64:selectedImageBase64};
+ if(!item.product_name||!Number.isFinite(item.price)||!Number.isInteger(item.stock)||item.price<0||item.stock<0){showMessage("productMessage","Enter a valid product name, price, and whole-number stock.","error");return;}
+ const btn=document.getElementById("saveProductButton");btn.disabled=true;btn.textContent="Saving Product...";sendToCSharp(item);
+});
+document.getElementById("addCategoryForm").addEventListener("submit",e=>{e.preventDefault();const name=String(new FormData(e.currentTarget).get("category_name")||"").trim();if(!name)return;sendToCSharp({action:"addCategory",category_name:name});});
+
+function escapeHTML(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
+function renderEmpty(message,cols){return `<tr><td colspan="${cols}" class="empty-state">${escapeHTML(message)}</td></tr>`;}
+function imageSource(product){
+ const source=product.image_path||product.image_url||"";
+ if(!source)return "";
+ // Accept data URLs and relative/absolute paths returned by the C# application.
+ return escapeHTML(source);
+}
+function renderProducts(data){
+ products=Array.isArray(data)?data:[];
+ const tbody=document.getElementById("productList");
+ if(!products.length)tbody.innerHTML=renderEmpty("No products found.",7);
+ else tbody.innerHTML=products.map(p=>{
+  const src=imageSource(p);
+  const image=src?`<img class="table-product-image" src="${src}" alt="${escapeHTML(p.product_name)}" onerror="this.onerror=null;this.src='';this.style.visibility='hidden'">`:`<span class="table-product-image" style="display:grid;place-items:center;color:#7950c8"><i class="bi bi-flower1"></i></span>`;
+  return `<tr><td>${escapeHTML(p.id)}</td><td>${image}</td><td>${escapeHTML(p.product_name)}</td><td>${escapeHTML(p.category_name||"Uncategorized")}</td><td>${peso(p.price)}</td><td>${escapeHTML(p.stock)}</td><td><button class="btn btn-danger" onclick="deleteProduct(${Number(p.id)})"><i class="bi bi-trash"></i> Delete</button></td></tr>`;
+ }).join("");
+ renderShopProducts();
+}
+function deleteProduct(id){if(confirm("Are you sure you want to delete this product?"))sendToCSharp({action:"deleteProduct",id});}
+function renderCategories(data){
+ categories=Array.isArray(data)?data:[];
+ const tbody=document.getElementById("categoryList");
+ tbody.innerHTML=categories.length?categories.map(c=>`<tr><td>${escapeHTML(c.id)}</td><td>${escapeHTML(c.category_name||c.name)}</td><td><button class="btn btn-danger" onclick="deleteCategory(${Number(c.id)})"><i class="bi bi-trash"></i> Delete</button></td></tr>`).join(""):renderEmpty("No categories found.",3);
+ populateCategoryDropdown(categories);
+}
+function deleteCategory(id){if(confirm("Are you sure you want to delete this category?"))sendToCSharp({action:"deleteCategory",id});}
+function renderCustomers(data){const t=document.getElementById("customerList");t.innerHTML=Array.isArray(data)&&data.length?data.map(c=>`<tr><td>${escapeHTML(c.id)}</td><td>${escapeHTML(c.fullname||c.customer_name)}</td><td>${escapeHTML(c.email||"N/A")}</td><td>${escapeHTML(c.phone||"N/A")}</td></tr>`).join(""):renderEmpty("No customers found.",4);}
+function renderOrders(data){const t=document.getElementById("orderList");t.innerHTML=Array.isArray(data)&&data.length?data.map(o=>`<tr><td>${escapeHTML(o.id)}</td><td>${escapeHTML(o.customer_name)}</td><td>${escapeHTML(o.order_date)}</td><td>${peso(o.total_amount)}</td><td>${escapeHTML(o.status)}</td></tr>`).join(""):renderEmpty("No orders found.",5);}
+function renderPayments(data){const t=document.getElementById("paymentList");t.innerHTML=Array.isArray(data)&&data.length?data.map(p=>`<tr><td>${escapeHTML(p.id)}</td><td>${escapeHTML(p.order_id)}</td><td>${escapeHTML(p.payment_method)}</td><td>${peso(p.amount)}</td><td>${escapeHTML(p.payment_status)}</td><td>${escapeHTML(p.payment_date)}</td></tr>`).join(""):renderEmpty("No payments found.",6);}
+function renderMyOrders(data){const t=document.getElementById("myOrderList");t.innerHTML=Array.isArray(data)&&data.length?data.map(o=>`<tr><td>${escapeHTML(o.id)}</td><td>${escapeHTML(o.order_date)}</td><td>${peso(o.total_amount)}</td><td>${escapeHTML(o.status)}</td></tr>`).join(""):renderEmpty("You have no orders yet.",4);}
+
+function renderShopProducts(){
+ const box=document.getElementById("shopProductList");if(!box)return;
+ if(!products.length){box.innerHTML='<p class="empty-state">No products available.</p>';return;}
+ box.innerHTML=products.map(p=>{
+  const src=imageSource(p);
+  const image=src?`<img src="${src}" alt="${escapeHTML(p.product_name)}" onerror="this.style.display='none'">`:'<i class="bi bi-flower1"></i>';
+  return `<div class="product-card"><div class="product-image">${image}</div><div class="product-details"><h4>${escapeHTML(p.product_name)}</h4><p>${escapeHTML(p.category_name||"Beauty Product")}</p><p>${escapeHTML(p.description||"")}</p><div class="product-price">${peso(p.price)}</div><p>Stock: ${escapeHTML(p.stock)}</p><button class="btn btn-primary" onclick="addToCart(${Number(p.id)})" ${Number(p.stock)<=0?"disabled":""}><i class="bi bi-cart-plus"></i> Add to Cart</button></div></div>`;
+ }).join("");
+ filterShopProducts();
+}
+function filterShopProducts(){const q=(document.getElementById("shopSearch")?.value||"").toLowerCase();document.querySelectorAll("#shopProductList .product-card").forEach(card=>card.style.display=card.textContent.toLowerCase().includes(q)?"":"none");}
+function addToCart(id){
+ const p=products.find(x=>Number(x.id)===Number(id));if(!p)return;
+ if(Number(p.stock)<=0){alert("This product is out of stock.");return;}
+ const found=cart.find(x=>x.product_id===Number(id));
+ if(found){if(found.quantity>=Number(p.stock)){alert("You have reached the available stock.");return;}found.quantity++;}
+ else cart.push({product_id:Number(p.id),product_name:p.product_name,price:Number(p.price),quantity:1,stock:Number(p.stock)});
+ alert("Product added to your cart!");
+}
+function changeCartQuantity(id,delta){const item=cart.find(x=>x.product_id===Number(id));if(!item)return;item.quantity+=delta;if(item.quantity<=0)cart=cart.filter(x=>x.product_id!==Number(id));else if(item.quantity>item.stock){item.quantity=item.stock;alert("Maximum available stock reached.");}renderCart();}
+function removeCartItem(id){cart=cart.filter(x=>x.product_id!==Number(id));renderCart();}
+function renderCart(){
+ const box=document.getElementById("cartItems");if(!cart.length){box.innerHTML='<p class="empty-state">Your cart is empty.</p>';document.getElementById("cartTotal").textContent=peso(0);return;}
+ let total=0;box.innerHTML=cart.map(i=>{const sub=i.price*i.quantity;total+=sub;return `<div class="cart-item"><div class="cart-item-info"><h4>${escapeHTML(i.product_name)}</h4><p>${peso(i.price)} each</p><p>Subtotal: ${peso(sub)}</p></div><div><button class="btn btn-light" onclick="changeCartQuantity(${i.product_id},-1)">−</button> <strong>${i.quantity}</strong> <button class="btn btn-light" onclick="changeCartQuantity(${i.product_id},1)">+</button> <button class="btn btn-danger" onclick="removeCartItem(${i.product_id})"><i class="bi bi-trash"></i></button></div></div>`;}).join("");
+ document.getElementById("cartTotal").textContent=peso(total);
+}
+function checkout(){if(!cart.length){alert("Your cart is empty.");return;}if(confirm("Are you sure you want to place this order?"))sendToCSharp({action:"checkout",items:cart.map(i=>({product_id:i.product_id,quantity:i.quantity}))});}
+function updateDashboard(d){document.getElementById("totalProducts").textContent=d.totalProducts??0;document.getElementById("totalCustomers").textContent=d.totalCustomers??0;document.getElementById("totalOrders").textContent=d.totalOrders??0;document.getElementById("totalRevenue").textContent=peso(d.totalRevenue);}
+function updateCustomerDashboard(d){document.getElementById("totalProducts").textContent=d.totalProducts??0;document.getElementById("totalCustomers").textContent="—";document.getElementById("totalOrders").textContent=d.totalOrders??0;document.getElementById("totalRevenue").textContent="—";}
+function updateReports(d){document.getElementById("reportRevenue").textContent=peso(d.totalRevenue);document.getElementById("completedOrders").textContent=d.completedOrders??0;}
+
+if(window.chrome&&window.chrome.webview){
+ window.chrome.webview.addEventListener("message",event=>{
+  let r;try{r=typeof event.data==="string"?JSON.parse(event.data):event.data;}catch(err){console.error("Invalid C# response",event.data);return;}
+  if(!r)return;const d=r.data??[];
+  if(r.success===false){
+   const msg=r.message||"An error occurred.";
+   if(r.action==="login")showMessage("loginMessage",msg,"error");
+   else if(r.action==="register")showMessage("registerMessage",msg,"error");
+   else if(r.action==="addProduct"){showMessage("productMessage",msg,"error");const b=document.getElementById("saveProductButton");b.disabled=false;b.innerHTML='<i class="bi bi-plus-circle"></i> Save Product';}
+   else if(r.action==="addCategory")showMessage("categoryMessage",msg,"error");
+   else alert(msg);
+   return;
+  }
+  switch(r.action){
+   case "login":showApp(r.username||r.fullname||"User",r.role||"customer",r.fullname||r.username||"User");break;
+   case "register":showMessage("registerMessage",r.message||"Registration successful!","success");document.getElementById("registerForm").reset();setTimeout(showLogin,1200);break;
+   case "logout":currentUser=null;currentFullname=null;currentRole=null;cart=[];showLogin();break;
+   case "getDashboard":updateDashboard(d);break;
+   case "getCustomerDashboard":updateCustomerDashboard(d);break;
+   case "getProducts":renderProducts(d);break;
+   case "getCategories":renderCategories(Array.isArray(r.data)?r.data:(Array.isArray(r.categories)?r.categories:[]));break;
+   case "getCustomers":renderCustomers(d);break;
+   case "getOrders":renderOrders(d);break;
+   case "getPayments":renderPayments(d);break;
+   case "getMyOrders":renderMyOrders(d);break;
+   case "getReports":updateReports(d);break;
+   case "addProduct":{
+    showMessage("productMessage",r.message||"Product added successfully!","success");
+    document.getElementById("addProductForm").reset();removeProductImage();
+    const b=document.getElementById("saveProductButton");b.disabled=false;b.innerHTML='<i class="bi bi-plus-circle"></i> Save Product';
+    setTimeout(()=>{closeModal("productModal");requestData("getProducts");},700);break;
+   }
+   case "deleteProduct":alert(r.message||"Product deleted successfully!");requestData("getProducts");break;
+   case "addCategory":showMessage("categoryMessage",r.message||"Category added successfully!","success");document.getElementById("addCategoryForm").reset();loadCategories();setTimeout(()=>closeModal("categoryModal"),700);break;
+   case "deleteCategory":alert(r.message||"Category deleted successfully!");loadCategories();break;
+   case "checkout":alert(r.message||"Order placed successfully!");cart=[];renderCart();navigate("myorders");break;
+   default:console.log("Unhandled C# response:",r);break;
+  }
+ });
+}
+document.addEventListener("DOMContentLoaded",showLogin);
+</script>
+</body>
+</html>
